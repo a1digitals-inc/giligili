@@ -1,8 +1,6 @@
 package api
 
 import (
-	"giligili/model"
-	"giligili/serializer"
 	"giligili/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -21,32 +19,16 @@ func CreateVideo(c *gin.Context) {
 
 
 func GetVideo(c *gin.Context) {
-	id, ok := c.Params.Get("id")
-	if ok {
-		var video model.Video
-		if err := model.DB.Where("id = ?", id).First(&video).Error; err != nil {
-			c.JSON(http.StatusOK, &serializer.Response{
-				Status: 400001,
-				Msg: "记录不存在"})
-		} else {
-			c.JSON(http.StatusOK, serializer.Response{
-				Data: serializer.BuildVideo(video),
-			})
-		}
-
-	} else {
-		c.JSON(http.StatusOK, serializer.Response{
-			Status: 400001,
-			Msg: "获取记录ID出错",
-		})
-	}
+	s := service.GetVideoService{}
+	data := s.Get(c.Param("id"))
+	c.JSON(http.StatusOK, data)
 }
 
 
 func UpdateVideo(c *gin.Context) {
 	s := service.UpLoadVideoService{}
-	if err := c.ShouldBind(&s); err == nil {
-		res := s.Update(c)
+	if err := c.Should(&s); err == nil {
+		res := s.Update(c.Param("id"))
 		c.JSON(http.StatusOK, res)
 	} else {
 		c.JSON(http.StatusOK, ErrorResponse(err))
@@ -54,7 +36,13 @@ func UpdateVideo(c *gin.Context) {
 }
 
 func DeleteVideo(c *gin.Context) {
-	s := service.DeleteVideoService()
-	res := s.Delete(c)
+	s := service.DeleteVideoService{}
+	res := s.Delete(c.Param("id"))
 	c.JSON(http.StatusOK, res)
+}
+
+func ListVideo(c *gin.Context) {
+	s := service.ListVIdeoService{}
+	data := s.List()
+	c.JSON(http.StatusOK, data)
 }

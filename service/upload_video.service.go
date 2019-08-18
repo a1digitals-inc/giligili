@@ -3,7 +3,6 @@ package service
 import (
 	"giligili/model"
 	"giligili/serializer"
-	"github.com/gin-gonic/gin"
 )
 
 type UpLoadVideoService struct {
@@ -12,9 +11,8 @@ type UpLoadVideoService struct {
 }
 
 
-func (s *UpLoadVideoService) Update(c *gin.Context) serializer.Response {
+func (s *UpLoadVideoService) Update(id string) serializer.Response {
 	var video model.Video
-	id, _ := c.Params.Get("id")
 	if err := model.DB.Where("id = ?", id).First(&video).Error; err != nil {
 		return serializer.Response{
 			Status: 50000,

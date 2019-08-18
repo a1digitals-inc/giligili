@@ -18,3 +18,11 @@ func BuildVideo(item model.Video) Video {
 		CreatedAt: item.CreatedAt.Unix(),
 	}
 }
+
+func BuildVideos(item []model.Video) []Video {
+	var res []Video
+	for _, video := range item {
+		res = append(res, BuildVideo(video))
+	}
+	return res
+}
