@@ -1,8 +1,8 @@
 package main
 
 import (
-	"go-crud/conf"
-	"go-crud/server"
+	"giligili/conf"
+	"giligili/server"
 )
 
 func main() {

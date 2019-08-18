@@ -1,8 +1,8 @@
 package service
 
 import (
-	"go-crud/model"
-	"go-crud/serializer"
+	"giligili/model"
+	"giligili/serializer"
 )
 
 // UserRegisterService 管理用户注册服务
